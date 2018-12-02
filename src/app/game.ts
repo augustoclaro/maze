@@ -11,7 +11,6 @@ export class MazeGame extends Phaser.Game {
   player: Player;
   grid: Grid;
   isReseting: boolean;
-  mytime: number;
   usePathFinder: boolean;
 
   constructor(

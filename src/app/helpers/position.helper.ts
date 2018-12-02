@@ -8,7 +8,6 @@ import {
   ICellsMap,
   IDirectionMap,
   IPosition,
-  ISize,
 } from '../game.definitions';
 import { Grid } from '../models/grid';
 import { Player } from '../models/player';
@@ -24,26 +23,6 @@ export class PositionHelper {
 
   static getUniqueId(pos: IPosition, prefix: string = 'id') {
     return `${prefix}-${Math.floor(pos.x)}-${Math.floor(pos.y)}`;
-  }
-
-  static getWallsMapFromCell(gameSize: ISize, pos: IPosition): IDirectionMap<boolean> {
-    const result = {};
-    if (pos.y === 0) result[Direction.UP] = true;
-    if (pos.x === 0) result[Direction.LEFT] = true;
-    if (pos.y === gameSize.h - 1) result[Direction.DOWN] = true;
-    if (pos.x === gameSize.w - 1) result[Direction.RIGHT] = true;
-    return result;
-  }
-
-  static isBorder(gameSize: ISize, cell: ICell): boolean {
-    return R.any(Boolean, R.values(PositionHelper.getWallsMapFromCell(gameSize, cell)));
-  }
-
-  static getBordersFromMaze(cells: ICellsMap, gameSize: ISize): ICell[] {
-    return R.filter(
-      cell => PositionHelper.isBorder(gameSize, cell),
-      R.values(cells)
-    );
   }
 
   static getNeighbors<TCell = ICell>(
@@ -93,14 +72,14 @@ export class PositionHelper {
     };
   }
 
+  // use this method to validate walls when making the player
+  // walk pixels instead of entire squares
   static hasWall(
     grid: Grid,
     playerSize: number,
     canvasSize: ICanvasSize,
     canvasPosition: ICanvasPosition,
   ): boolean {
-    // use this method to validate walls when making the player
-    // walk pixels instead of entire squares
     const halfWall = grid.wallHeight / 2;
     if (canvasPosition.canvasX <= halfWall) return true;
     if (canvasPosition.canvasY <= halfWall / 2) return true;
