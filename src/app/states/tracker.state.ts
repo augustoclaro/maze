@@ -6,6 +6,7 @@ import { RandomHelper } from '../helpers/random.helper';
 import { MainState } from './main.state';
 
 //  this state is a visualization of the maze generation algorithm
+//  this is not working so much because the walls are not correctly rendered
 export class TrackerState extends MainState {
   current: ITrackedCell;
   trackerSprite: Phaser.Sprite;
@@ -24,7 +25,6 @@ export class TrackerState extends MainState {
   private trackNext() {
     if (!this.current) {
       this.visit(this.game.grid.cells[PositionHelper.getUniqueId({ x: 0, y: 0 })]);
-      // this.visit(RandomHelper.wall(this.game));
       return;
     }
     const neighbors = PositionHelper.getNeighbors<ITrackedCell>(this.game.grid.cells, this.current);

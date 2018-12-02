@@ -107,14 +107,6 @@ export class MazeHelper {
         list => R.filter<ICell>(Boolean, list),
       )(neighbors);
       const nextCell = MazeHelper.closestTo(to, possibleNighbors);
-      // const nextDir = RandomHelper.arrayItem(
-      //   R.filter(dir =>
-      //     !visited[neighbors[dir].id] &&
-      //     !current.walls[dir] &&
-      //     !neighbors[dir].walls[GAME.WALL_FACING_DIRECTION[dir]]
-      //   , R.keys(neighbors))
-      // ) as Direction;
-      // const nextCell = neighbors[nextDir];
       if (!!nextCell) {
         visit(nextCell);
         if (PositionHelper.equals(nextCell, to)) return R.concat(path, [nextCell]);

@@ -1,40 +1,23 @@
-import { MazeRunner } from '../../neural/maze.runner';
-import { MazeNeuralNetwork } from '../../neural/nn.maze';
 import { MazeGame } from '../game';
 import { Direction } from '../game.definitions';
+import { PositionHelper } from '../helpers/position.helper';
 import { PathFinder } from '../models/path-finder';
-import { Trainer } from '../models/trainer';
 
 export class MainState extends Phaser.State {
   game: MazeGame;
-  // trainer: Trainer;
-  // pathFinder: PathFinder;
+  pathFinder: PathFinder;
 
   create() {
     this.time.events.loop(Phaser.Timer.SECOND / 10, this.moveUpdate, this);
-    if (this.game.useNN) {
-      this.game.grid.createGrid(this.game);
-      this.game.player.createPlayer(this.game);
-      // this.pathFinder = new PathFinder(this.game, this.game, this.game.grid, this.game.player);
-    } else {
-      // this.trainer = new Trainer(this.game, this.game.grid, this.game.player);
-      // this.trainer.start();
+    this.game.grid.createGrid(this.game);
+    this.game.player.createPlayer(this.game);
+    if (this.game.usePathFinder) {
+      this.pathFinder = new PathFinder(this.game.grid, this.game.player);
     }
   }
 
   update() {
-    if (this.game.useNN) {
-      this.game.player.drawPlayer();
-    } else {
-      // let trained = false;
-      // while (!trained) {
-      //   this.trainer.update();
-      //   if (this.game.isReseting) {
-      //     trained = true;
-      //     break;
-      //   }
-      // }
-    }
+    this.game.player.drawPlayer();
     if (this.game.isReseting) {
       this.game.reset();
       this.state.restart();
@@ -42,12 +25,8 @@ export class MainState extends Phaser.State {
   }
 
   private moveUpdate() {
-    if (this.game.useNN) {
-      this.game.mazeRunner.update();
-      // this.pathFinder.update();
-      // if (this.pathFinder.foundTarget) this.game.isReseting = true;
-      this.handleMoveInput();
-    }
+    if (this.game.usePathFinder) this.pathFinder.update();
+    this.handleMoveInput();
   }
 
   private handleMoveInput() {
@@ -56,5 +35,10 @@ export class MainState extends Phaser.State {
     else if (cursor.up.isDown) this.game.player.move(Direction.UP);
     else if (cursor.left.isDown) this.game.player.move(Direction.LEFT);
     else if (cursor.right.isDown) this.game.player.move(Direction.RIGHT);
+    // reset game if find target
+    if (PositionHelper.equals(
+      PositionHelper.getGamePosition(this.game.grid.cellSize, this.game.player.pos),
+      this.game.grid.targetPosition,
+    )) this.game.isReseting = true;
   }
 }

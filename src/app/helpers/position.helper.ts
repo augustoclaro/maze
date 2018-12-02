@@ -1,5 +1,4 @@
 import * as R from 'ramda';
-import { MazeGame } from '../game';
 import { Directions, GAME } from '../game.constants';
 import {
   Direction,
@@ -100,6 +99,8 @@ export class PositionHelper {
     canvasSize: ICanvasSize,
     canvasPosition: ICanvasPosition,
   ): boolean {
+    // use this method to validate walls when making the player
+    // walk pixels instead of entire squares
     const halfWall = grid.wallHeight / 2;
     if (canvasPosition.canvasX <= halfWall) return true;
     if (canvasPosition.canvasY <= halfWall / 2) return true;

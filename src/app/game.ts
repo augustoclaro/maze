@@ -1,5 +1,3 @@
-import { MazeRunner } from '../neural/maze.runner';
-import { MazeNeuralNetwork } from '../neural/nn.maze';
 import { GAME } from './game.constants';
 import { ISize } from './game.definitions';
 import { MazeHelper } from './helpers/maze.helper';
@@ -13,16 +11,13 @@ export class MazeGame extends Phaser.Game {
   player: Player;
   grid: Grid;
   isReseting: boolean;
-  useNN: boolean;
   mytime: number;
-  // player using neural network
-  // has to be in 'game' because otherwise it would be reset with the stae
-  mazeRunner: MazeRunner;
+  usePathFinder: boolean;
 
   constructor(
     size: ISize,
+    usePathFinder: boolean = false,
     container = document.getElementById(GAME.CONTAINER_ID),
-    useNN: boolean = false,
   ) {
     if (!container) throw new Error('Container can\'t be null.');
     // validate container size
@@ -36,7 +31,7 @@ export class MazeGame extends Phaser.Game {
       );
     }
     // initialize game with correct sizes
-    // container.setAttribute('style', `padding-top: ${GAME.MARGIN}px;`);
+    container.setAttribute('style', `padding-top: ${GAME.MARGIN}px;`);
     super(
       windowPixels.size.width,
       windowPixels.size.height,
@@ -51,12 +46,8 @@ export class MazeGame extends Phaser.Game {
     this.player = new Player(
       moveSpeed,
       this.grid,
-      this,
     );
-    this.useNN = useNN;
-    // MazeNeuralNetwork.game = this;
-    // console.log(windowPixels.size, cellSize);
-    this.mazeRunner = new MazeRunner(this);
+    this.usePathFinder = usePathFinder;
   }
 
   reset() {
@@ -72,7 +63,6 @@ export class MazeGame extends Phaser.Game {
     this.player = new Player(
       this.player.moveSpeed,
       this.grid,
-      this,
     );
   }
 }

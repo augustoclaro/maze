@@ -1,6 +1,6 @@
 import { MazeGame } from '../game';
 import { GAME } from '../game.constants';
-import { Direction, ICanvasPosition, ICanvasSize, ICellsMap, IPosition } from '../game.definitions';
+import { Direction, ICanvasPosition, IPosition } from '../game.definitions';
 import { PositionHelper } from '../helpers/position.helper';
 import { Grid } from './grid';
 
@@ -12,7 +12,6 @@ export class Player {
   constructor(
     public moveSpeed: number,
     private grid: Grid,
-    private canvasSize: ICanvasSize,
   ) {
     this.playerSize = grid.cellSize * .5;
     this.pos = PositionHelper.getCanvasPosition(
@@ -23,8 +22,7 @@ export class Player {
   }
 
   createPlayer(game: MazeGame) {
-    const factory = game.useNN ? game.add : game.add;
-    this.playerGraphics = factory.graphics(0, 0);
+    this.playerGraphics = game.add.graphics(0, 0);
   }
 
   move(dir: Direction) {
@@ -32,12 +30,7 @@ export class Player {
     const newGamePos = PositionHelper.getGamePosition(this.grid.cellSize, newPos);
     const newCell = this.grid.cells[PositionHelper.getUniqueId(newGamePos)];
     if (!!newCell && !newCell.walls[GAME.WALL_FACING_DIRECTION[dir]]) this.pos = newPos;
-    // if (!PositionHelper.hasWall(
-    //   this.grid,
-    //   this.playerSize,
-    //   this.canvasSize,
-    //   newPos,
-    // )) this.pos = newPos;
+    // this could also support moving pixels, not entire squares (using player.moveSpeed).
   }
 
   // returns direction to position, or null if already on position

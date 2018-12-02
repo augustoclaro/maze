@@ -1,14 +1,6 @@
 import { Direction, IDirectionMap, IPosition, ISize } from './game.definitions';
 
-// the order of this array is the order of walls input to Neural Network
 export const Directions = [Direction.LEFT, Direction.UP, Direction.RIGHT, Direction.DOWN];
-
-const DIRECTION_LABELS_MAP: IDirectionMap<string> = {
-  [Direction.LEFT]: 'LEFT',
-  [Direction.UP]: 'UP',
-  [Direction.RIGHT]: 'RIGHT',
-  [Direction.DOWN]: 'DOWN',
-};
 
 const DIRECTION_OFFSET_MAP: IDirectionMap<IPosition> = {
   [Direction.LEFT]: { x: -1, y: 0 },
@@ -23,7 +15,6 @@ export const GAME = {
   MAX_SQM_SIZE: 100,
   MARGIN: 15,
   DIRECTION_OFFSET_MAP,
-  DIRECTION_LABELS_MAP,
   WALL_FACING_DIRECTION: {
     [Direction.UP]: Direction.DOWN,
     [Direction.DOWN]: Direction.UP,
@@ -31,7 +22,7 @@ export const GAME = {
     [Direction.RIGHT]: Direction.LEFT,
   } as IDirectionMap<Direction>,
   DEFAULT_SIZE: {
-    w: 3,
-    h: 3,
+    w: 20,
+    h: 20,
   } as ISize,
 };
