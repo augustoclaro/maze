@@ -30,14 +30,12 @@ export class MainState extends Phaser.State {
 
   private handleMoveInput() {
     const dir = this.dirFromCursor() || this.dirFromTouch();
-    if (!!dir) {
-      this.game.player.move(dir);
-      // reset game if find target
-      if (PositionHelper.equals(
-        PositionHelper.getGamePosition(this.game.grid.cellSize, this.game.player.pos),
-        this.game.grid.targetPosition,
-      )) this.game.isReseting = true;
-    }
+    if (!!dir) this.game.player.move(dir);
+    // reset game if find target
+    if (PositionHelper.equals(
+      PositionHelper.getGamePosition(this.game.grid.cellSize, this.game.player.pos),
+      this.game.grid.targetPosition,
+    )) this.game.isReseting = true;
   }
 
   private dirFromTouch() {
