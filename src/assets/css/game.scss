@@ -3,12 +3,15 @@
   margin: 0;
 }
 
-body {
+html, body {
   overflow: hidden;
+}
+body {
+  position: relative;
 }
 
 #game-container {
-  width: 800px;
+  width: 1000px;
   height: 600px;
   margin: 0 auto;
   /* border: 1px solid black; // use to see box size */

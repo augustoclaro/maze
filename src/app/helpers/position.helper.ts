@@ -72,6 +72,17 @@ export class PositionHelper {
     };
   }
 
+  static directionFromTouchCanvasPosition(
+    gameSize: ICanvasSize,
+    touchPos: ICanvasPosition,
+  ): Direction {
+    if (touchPos.canvasY <= gameSize.height * .375) return Direction.UP;
+    if (touchPos.canvasY >= gameSize.height * .625) return Direction.DOWN;
+    if (touchPos.canvasX <= gameSize.width * .375) return Direction.LEFT;
+    if (touchPos.canvasX >= gameSize.width * .625) return Direction.RIGHT;
+    return null;
+  }
+
   // use this method to validate walls when making the player
   // walk pixels instead of entire squares
   static hasWall(
