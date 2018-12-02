@@ -13,17 +13,25 @@ export class PathFinder {
     private grid: Grid,
     private player: Player,
   ) {
-    this.path = MazeHelper.findPath(
-      grid.cells,
-      PositionHelper.getGamePosition(grid.cellSize, this.player.pos),
-      grid.targetPosition,
-    );
+    this.setPathToTarget();
   }
 
   update() {
-    const nextCell = R.find(p => !this.visited[PositionHelper.getUniqueId(p)], this.path);
+    // const unvisitedPath = R.filter(p => !this.visited[PositionHelper.getUniqueId(p)], this.path);
+    const playerGamePos = PositionHelper.getGamePosition(this.grid.cellSize, this.player.pos);
+    const isPlayerIn = R.curry(PositionHelper.equals)(playerGamePos);
+    const currentPositionOnPath = R.findIndex(isPlayerIn, this.path);
+    if (currentPositionOnPath === -1) {
+      this.setPathToTarget();
+      return this.update();
+    }
+    let nextCell: IPosition;
+    for (let i = 0; i < this.path.length; i++) {
+      const step = this.path[i];
+      this.visited[PositionHelper.getUniqueId(step)] = i <= currentPositionOnPath;
+      if (i === currentPositionOnPath + 1) nextCell = step;
+    }
     if (!!nextCell) {
-      const playerGamePos = PositionHelper.getGamePosition(this.grid.cellSize, this.player.pos);
       if (PositionHelper.equals(playerGamePos, nextCell)) {
         this.visited[PositionHelper.getUniqueId(nextCell)] = true;
         return this.update();
@@ -36,5 +44,13 @@ export class PathFinder {
       }
       this.player.move(dir);
     }
+  }
+
+  private setPathToTarget() {
+    this.path = MazeHelper.findPath(
+      this.grid.cells,
+      PositionHelper.getGamePosition(this.grid.cellSize, this.player.pos),
+      this.grid.targetPosition,
+    );
   }
 }

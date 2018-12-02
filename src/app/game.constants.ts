@@ -10,10 +10,16 @@ const DIRECTION_OFFSET_MAP: IDirectionMap<IPosition> = {
 };
 
 export const GAME = {
+  // custom setup
+  MARGIN: 15,
+  DEFAULT_SIZE: {
+    w: 20,
+    h: 20,
+  } as ISize,
+  // ----- game config
   CONTAINER_ID: 'game-container',
   MIN_SQM_SIZE: 10,
   MAX_SQM_SIZE: 100,
-  MARGIN: 15,
   DIRECTION_OFFSET_MAP,
   WALL_FACING_DIRECTION: {
     [Direction.UP]: Direction.DOWN,
@@ -21,8 +27,4 @@ export const GAME = {
     [Direction.LEFT]: Direction.RIGHT,
     [Direction.RIGHT]: Direction.LEFT,
   } as IDirectionMap<Direction>,
-  DEFAULT_SIZE: {
-    w: 20,
-    h: 20,
-  } as ISize,
 };

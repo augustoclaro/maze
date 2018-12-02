@@ -3,9 +3,9 @@
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
         "lib": [
-            "dom",
-            "es2015",
-            "es2016"
+        "dom",
+        "es2015",
+        "es2016"
         ],
         "jsx": "preserve",
         "target": "es2016",

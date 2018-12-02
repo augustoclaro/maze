@@ -11,9 +11,7 @@ export class MainState extends Phaser.State {
     this.time.events.loop(Phaser.Timer.SECOND / 10, this.moveUpdate, this);
     this.game.grid.createGrid(this.game);
     this.game.player.createPlayer(this.game);
-    if (this.game.usePathFinder) {
-      this.pathFinder = new PathFinder(this.game.grid, this.game.player);
-    }
+    this.pathFinder = new PathFinder(this.game.grid, this.game.player);
   }
 
   update() {

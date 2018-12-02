@@ -7,5 +7,26 @@ import { MazeGame } from './src/app/game';
 import { GAME } from './src/app/game.constants';
 
 window.onload = () => {
-  new MazeGame(GAME.DEFAULT_SIZE);
+  let game: MazeGame;
+  let usePathFinder = false;
+  let mazeSize = GAME.DEFAULT_SIZE;
+  function startGame() {
+    if (!!game) game.destroy();
+    // I set game to null first, so it'll be overwritten
+    // even if MazeGame construction fails
+    game = null;
+    game = new MazeGame(mazeSize, usePathFinder);
+  }
+  startGame();
+  // manage path finder
+  document.querySelector('#btn-toggle-pathfinder').addEventListener('click', () => {
+    usePathFinder = !usePathFinder;
+    game.usePathFinder = usePathFinder;
+  });
+  // customize size
+  const mazeSizeSelector = document.querySelector<HTMLInputElement>('#maze-size');
+  mazeSizeSelector.addEventListener('change', () => {
+    mazeSize = { w: Number(mazeSizeSelector.value), h: Number(mazeSizeSelector.value) };
+    startGame();
+  });
 };
