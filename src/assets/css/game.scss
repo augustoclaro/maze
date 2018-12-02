@@ -1,0 +1,21 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+#game-container canvas, .game-container canvas {
+  margin: 0 auto;
+}
+
+.game-container {
+  // width: 100%;
+  // height: 700px;
+  width: 235px;
+  height: 235px;
+  float: left;
+  margin: 0 auto;
+}
