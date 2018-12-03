@@ -9,6 +9,4 @@ Using Phaser-CE + TypeScript.
 Run instructions:
 Clone repository, `npm install` packages, and run with `npm start`
 
-To see pathfinder playing for you, pass `true` to second argument of `new MazeGame` on index.ts. Example: `new MazeGame(GAME.DEFAULT_SIZE, true);`
-
-You can change maze size on game.constants.ts on `DEFAULT_SIZE` constant. Remember to change the game container size on game.scss to make enough room to your huge mazes, or you can see an exception thrown.
+Path finder can be enabled/disbaled and maze size can be changed through controls in demo page.
