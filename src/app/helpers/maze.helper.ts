@@ -61,8 +61,10 @@ export class MazeHelper {
     visit(cells[PositionHelper.getUniqueId({ x: 0, y: 0 })]);
     while (true) {
       const neighbors = PositionHelper.getNeighbors(cells, current);
-      const nextDir = RandomHelper.arrayItem(
-        R.filter(dir => !visited[neighbors[dir].id], R.keys(neighbors))
+      const nextDir = RandomHelper.noiseArrayItem(
+        current.x / 1000,
+        current.y / 1000,
+        R.filter(dir => !visited[neighbors[dir].id], R.keys(neighbors)),
       ) as Direction;
       const nextCell = neighbors[nextDir];
       if (!!nextCell) {
